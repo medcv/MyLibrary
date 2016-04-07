@@ -48,15 +48,15 @@ public class AuthorDTO {
 	public ResultSet getAuthorById(int authorId) {
 		
 		Connection connection = new DBConnection().getConnection();
-		PreparedStatement ps = null;
-		ResultSet rs = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
 		try{
-			String preparedSQL;
-			preparedSQL = "SELECT authorId, authorName FROM tbl_author WHERE authorId = ?";
-			ps = connection.prepareStatement(preparedSQL);
-			ps.setInt(1, authorId);
-		    rs = ps.executeQuery();
-			rs.close();
+			preparedStatement = connection.prepareStatement("SELECT authorId, authorName FROM tbl_author WHERE authorId = ?");
+			preparedStatement.setInt(1, authorId);
+			resultSet = preparedStatement.executeQuery();
+			resultSet.close();
+			
+			
 		}
 		catch (SQLException e){
 		e.printStackTrace();
@@ -64,11 +64,11 @@ public class AuthorDTO {
 		finally {
 			try {
 				connection.close();
-				ps.close();
+				preparedStatement.close();
 			} catch (SQLException e) {
 			e.printStackTrace();
 			}
 		}
-		return rs;
+		return resultSet;
 	}
 }
